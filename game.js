@@ -11,6 +11,9 @@ let dy = 0;
 let score = 0;
 let gameLoop;
 
+let touchStartX = 0;
+let touchStartY = 0;
+
 function adjustCanvasSize() {
   const container = document.getElementById("game-container");
   const size = Math.min(container.clientWidth, window.innerHeight * 0.8);
@@ -22,6 +25,8 @@ function adjustCanvasSize() {
 function startGame() {
   adjustCanvasSize();
   document.addEventListener("keydown", handleKeyPress);
+  canvas.addEventListener("touchstart", handleTouchStart);
+  canvas.addEventListener("touchmove", handleTouchMove);
   gameLoop = setInterval(gameTick, 100);
 }
 
@@ -61,43 +66,4 @@ function generateFood() {
 }
 
 function checkCollision() {
-  const head = snake[0];
-  if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-    gameOver();
-  }
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) {
-      gameOver();
-    }
-  }
-}
-
-function gameOver() {
-  clearInterval(gameLoop);
-  Telegram.WebApp.showAlert(`Игра окончена! Счёт: ${score}`);
-  Telegram.WebApp.MainButton.show();
-}
-
-function drawGame() {
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0f0";
-  snake.forEach(segment => {
-    ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
-  });
-  ctx.fillStyle = "#f00";
-  ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-}
-
-function handleKeyPress(e) {
-  switch (e.key) {
-    case "ArrowUp": if (dy === 0) { dx = 0; dy = -1; } break;
-    case "ArrowDown": if (dy === 0) { dx = 0; dy = 1; } break;
-    case "ArrowLeft": if (dx === 0) { dx = -1; dy = 0; } break;
-    case "ArrowRight": if (dx === 0) { dx = 1; dy = 0; } break;
-  }
-}
-
-// Запуск игры
-startGame();
-
+  const head = snake[0
