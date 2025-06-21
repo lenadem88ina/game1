@@ -22,8 +22,6 @@ function adjustCanvasSize() {
 function startGame() {
   adjustCanvasSize();
   document.addEventListener("keydown", handleKeyPress);
-  canvas.addEventListener("touchstart", handleTouchStart);
-  canvas.addEventListener("touchmove", handleTouchMove);
   gameLoop = setInterval(gameTick, 100);
 }
 
@@ -100,4 +98,6 @@ function handleKeyPress(e) {
   }
 }
 
-let touchStart
+// Запуск игры
+startGame();
+
